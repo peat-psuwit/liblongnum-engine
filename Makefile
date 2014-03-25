@@ -1,9 +1,13 @@
-all : liblongnum_engine
+DIRS = library #demo-program
+.PHONY : library demo-program all clean
 
-liblongnum_engine : liblongnum_engine.so
+library :
+	cd library && $(MAKE)
 
-liblongnum_engine.so : longnum_engine.o
-	c++ -shared -o liblongnum_engine.so longnum_engine.o
+demo-program :
+	cd demo-program && $(MAKE)
 
-longnum_engine.o : longnum_engine.h longnum_engine.cpp
-	c++ -c -Wall -Werror -fpic longnum_engine.cpp
+all : $(DIRS)
+
+clean : 
+	for dir in $(DIRS); do cd $$dir && $(MAKE) clean || exit $$?; done
