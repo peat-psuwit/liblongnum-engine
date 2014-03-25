@@ -1,5 +1,5 @@
 DIRS = library demo-program
-.PHONY : library demo-program all clean
+.PHONY : $(DIRS) all clean
 
 $(DIRS) :
 	cd $@ && $(MAKE)
