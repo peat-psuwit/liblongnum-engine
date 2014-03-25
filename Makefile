@@ -1,13 +1,12 @@
-DIRS = library #demo-program
+DIRS = library demo-program
 .PHONY : library demo-program all clean
 
-library :
-	cd library && $(MAKE)
+$(DIRS) :
+	cd $@ && $(MAKE)
 
-demo-program :
-	cd demo-program && $(MAKE)
+demo-program : library
 
 all : $(DIRS)
 
 clean : 
-	for dir in $(DIRS); do cd $$dir && $(MAKE) clean || exit $$?; done
+	for dir in $(DIRS); do cd $$dir && $(MAKE) clean && cd .. || exit $$?; done
