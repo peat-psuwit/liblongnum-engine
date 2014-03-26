@@ -196,28 +196,15 @@ longnum longnum_multiply (longnum num1_head, longnum num2_head) {
                 num2_count++;
                 continue;
               }
-              while (num1_curr != NULL) {
+              while (num1_curr != NULL || leftover != 0) {
                     tmp_curr = alloc(longnum_digit);
-                    tmp_curr->digit = (num1_curr->digit * num2_curr->digit) + leftover;
+                    tmp_curr->digit = leftover;
+                    if (num1_curr != NULL) {
+                        tmp_curr->digit += num1_curr->digit * num2_curr->digit;
+                        num1_curr = num1_curr->left;
+                    }
                     leftover = tmp_curr->digit / 10;
                     tmp_curr->digit %= 10;
-                    tmp_curr->left=NULL;
-                    if (tmp_head == NULL) {
-                       tmp_tail=tmp_curr;
-                       tmp_curr->right=NULL;
-                    }
-                    else {
-                         tmp_curr->right=tmp_head;
-                         tmp_head->left=tmp_curr;
-                    }
-                    tmp_head = tmp_curr;
-                    num1_curr = num1_curr->left;
-              }
-
-              while (leftover != 0) {
-                    tmp_curr = alloc(longnum_digit);
-                    tmp_curr->digit = leftover % 10;
-                    leftover /= 10;
                     tmp_curr->left=NULL;
                     if (tmp_head == NULL) {
                        tmp_tail=tmp_curr;
