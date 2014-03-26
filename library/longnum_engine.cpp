@@ -72,37 +72,18 @@ longnum longnum_sum (longnum num1_head, longnum num2_head) {
                    num2_curr = num2_curr->right;
         }
 
-        while ((num1_curr != NULL) || (num2_curr != NULL)) {
-          sum_curr = alloc(longnum_digit);
-          if (num1_curr == NULL) {
-               sum_curr->digit = num2_curr->digit + leftover;
-               num2_curr = num2_curr->left;
-          }
-          else if (num2_curr == NULL) {
-               sum_curr->digit = num1_curr->digit + leftover;
-               num1_curr = num1_curr->left;
-          }
-          else {
-               sum_curr->digit = num1_curr->digit + num2_curr->digit + leftover;
-               num1_curr = num1_curr->left;
-               num2_curr = num2_curr->left;
-          }
-          leftover = sum_curr->digit / 10;
-          sum_curr->digit %= 10;
-          sum_curr->left=NULL;
-          if (sum_head == NULL) {
-             sum_curr->right=NULL;
-          }
-          else {
-             sum_curr->right=sum_head;
-             sum_head->left=sum_curr;
-          }
-          sum_head = sum_curr;
-    }
-
-    while (leftover != 0) {
+        while ((num1_curr != NULL) || (num2_curr != NULL) || leftover != 0) {
           sum_curr = alloc(longnum_digit);
           sum_curr->digit = leftover;
+          if (num1_curr != NULL) {
+            sum_curr->digit += num1_curr->digit;
+            num1_curr = num1_curr->left;
+          }
+          if (num2_curr != NULL) {
+            sum_curr->digit += num2_curr->digit;
+            num2_curr = num2_curr->left;
+          }
+
           leftover = sum_curr->digit / 10;
           sum_curr->digit %= 10;
           sum_curr->left=NULL;
