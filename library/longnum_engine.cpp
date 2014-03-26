@@ -295,7 +295,7 @@ void longnum_print(longnum num) {
     char started=0;
     while (num_curr != NULL) {
           if (num_curr->digit != 0 || started) {
-             printf("%d", num_curr->digit);
+             printf("%hhd", num_curr->digit);
              started = 1;
           }
           num_curr = num_curr->right;
