@@ -324,12 +324,13 @@ longnum int_to_longnum(unsigned int integer) {
 }
 #ifdef __cplusplus
 longnum longnum_multinum_sum(std::queue <longnum> queue) {
-        char leftover=0;
+        unsigned int leftover=0;
         std::queue <longnum> sum_queue;
         //std::queue <longnum> tmp_queue;
         longnum num_curr=NULL;
         longnum result_head=NULL, result_curr=NULL;
         longnum new_digit=NULL;
+        unsigned int sum_tmp;
 
         if (queue.empty()) return int_to_longnum(0);
 
@@ -346,17 +347,17 @@ longnum longnum_multinum_sum(std::queue <longnum> queue) {
         num_curr = NULL;
         while (!sum_queue.empty()) {
               result_curr = alloc(longnum_digit);
-              result_curr->digit = leftover;
+              sum_tmp = leftover;
               while (num_curr != new_digit) {
                     num_curr = sum_queue.front();
                     sum_queue.pop();
-                    result_curr->digit += num_curr->digit;
+                    sum_tmp += num_curr->digit;
                     if (num_curr->left != NULL)
                        sum_queue.push(num_curr->left);
               }
               if (!sum_queue.empty()) new_digit = sum_queue.back();
-              leftover = result_curr->digit / 10;
-              result_curr->digit %= 10;
+              leftover = sum_tmp / 10;
+              result_curr->digit = sum_tmp % 10;
               result_curr->left=NULL;
               if (result_head == NULL) {
                  result_head = result_curr;
