@@ -72,37 +72,18 @@ longnum longnum_sum (longnum num1_head, longnum num2_head) {
                    num2_curr = num2_curr->right;
         }
 
-        while ((num1_curr != NULL) || (num2_curr != NULL)) {
-          sum_curr = alloc(longnum_digit);
-          if (num1_curr == NULL) {
-               sum_curr->digit = num2_curr->digit + leftover;
-               num2_curr = num2_curr->left;
-          }
-          else if (num2_curr == NULL) {
-               sum_curr->digit = num1_curr->digit + leftover;
-               num1_curr = num1_curr->left;
-          }
-          else {
-               sum_curr->digit = num1_curr->digit + num2_curr->digit + leftover;
-               num1_curr = num1_curr->left;
-               num2_curr = num2_curr->left;
-          }
-          leftover = sum_curr->digit / 10;
-          sum_curr->digit %= 10;
-          sum_curr->left=NULL;
-          if (sum_head == NULL) {
-             sum_curr->right=NULL;
-          }
-          else {
-             sum_curr->right=sum_head;
-             sum_head->left=sum_curr;
-          }
-          sum_head = sum_curr;
-    }
-
-    while (leftover != 0) {
+        while ((num1_curr != NULL) || (num2_curr != NULL) || leftover != 0) {
           sum_curr = alloc(longnum_digit);
           sum_curr->digit = leftover;
+          if (num1_curr != NULL) {
+            sum_curr->digit += num1_curr->digit;
+            num1_curr = num1_curr->left;
+          }
+          if (num2_curr != NULL) {
+            sum_curr->digit += num2_curr->digit;
+            num2_curr = num2_curr->left;
+          }
+
           leftover = sum_curr->digit / 10;
           sum_curr->digit %= 10;
           sum_curr->left=NULL;
@@ -215,28 +196,15 @@ longnum longnum_multiply (longnum num1_head, longnum num2_head) {
                 num2_count++;
                 continue;
               }
-              while (num1_curr != NULL) {
+              while (num1_curr != NULL || leftover != 0) {
                     tmp_curr = alloc(longnum_digit);
-                    tmp_curr->digit = (num1_curr->digit * num2_curr->digit) + leftover;
+                    tmp_curr->digit = leftover;
+                    if (num1_curr != NULL) {
+                        tmp_curr->digit += num1_curr->digit * num2_curr->digit;
+                        num1_curr = num1_curr->left;
+                    }
                     leftover = tmp_curr->digit / 10;
                     tmp_curr->digit %= 10;
-                    tmp_curr->left=NULL;
-                    if (tmp_head == NULL) {
-                       tmp_tail=tmp_curr;
-                       tmp_curr->right=NULL;
-                    }
-                    else {
-                         tmp_curr->right=tmp_head;
-                         tmp_head->left=tmp_curr;
-                    }
-                    tmp_head = tmp_curr;
-                    num1_curr = num1_curr->left;
-              }
-
-              while (leftover != 0) {
-                    tmp_curr = alloc(longnum_digit);
-                    tmp_curr->digit = leftover % 10;
-                    leftover /= 10;
                     tmp_curr->left=NULL;
                     if (tmp_head == NULL) {
                        tmp_tail=tmp_curr;
@@ -345,17 +313,19 @@ longnum longnum_multinum_sum(std::queue <longnum> queue) {
 
         new_digit = sum_queue.back();
         num_curr = NULL;
-        while (!sum_queue.empty()) {
+        while (!sum_queue.empty() || leftover != 0) {
               result_curr = alloc(longnum_digit);
               sum_tmp = leftover;
-              while (num_curr != new_digit) {
-                    num_curr = sum_queue.front();
-                    sum_queue.pop();
-                    sum_tmp += num_curr->digit;
-                    if (num_curr->left != NULL)
-                       sum_queue.push(num_curr->left);
+              if (!sum_queue.empty()) {
+                  while (num_curr != new_digit) {
+                        num_curr = sum_queue.front();
+                        sum_queue.pop();
+                        sum_tmp += num_curr->digit;
+                        if (num_curr->left != NULL)
+                           sum_queue.push(num_curr->left);
+                  }
+                  if (!sum_queue.empty()) new_digit = sum_queue.back();
               }
-              if (!sum_queue.empty()) new_digit = sum_queue.back();
               leftover = sum_tmp / 10;
               result_curr->digit = sum_tmp % 10;
               result_curr->left=NULL;
@@ -375,22 +345,6 @@ longnum longnum_multinum_sum(std::queue <longnum> queue) {
               }*/
         }
 
-        while (leftover != 0) {
-              result_curr = alloc(longnum_digit);
-              result_curr->digit = leftover % 10;
-              leftover /= 10;
-              result_curr->left = NULL;
-              if (result_head == NULL) {
-                 result_head = result_curr;
-                 result_curr->right = NULL;
-              }
-              else {
-                   result_curr->right = result_head;
-                   result_head->left = result_curr;
-              }
-              result_head = result_curr;
-        }
-
         return longnum_freezero(result_head);
 }
 #endif // __cplusplus
@@ -402,27 +356,15 @@ longnum longnum_uint_multiply(longnum num1_head, unsigned int num) {
     while (num1_curr->right != NULL)
         num1_curr = num1_curr->right;
 
-    while (num1_curr != NULL) {
+    while (num1_curr != NULL || leftover != 0) {
         result_curr = alloc(longnum_digit);
-        tmp = (num1_curr->digit * num) + leftover;
+        tmp = leftover;
+        if (num1_curr != NULL) {
+            tmp += num1_curr->digit * num;
+            num1_curr = num1_curr->left;
+        }
         result_curr->digit = tmp % 10;
         leftover = tmp / 10;
-        result_curr->left = NULL;
-        if (result_head == NULL) {
-            result_curr->right = NULL;
-        }
-        else {
-            result_curr->right = result_head;
-            result_head->left = result_curr;
-        }
-        result_head = result_curr;
-        num1_curr = num1_curr->left;
-    }
-
-    while (leftover != 0) {
-        result_curr = alloc(longnum_digit);
-        result_curr->digit = leftover % 10;
-        leftover /= 10;
         result_curr->left = NULL;
         if (result_head == NULL) {
             result_curr->right = NULL;
