@@ -312,17 +312,19 @@ longnum longnum_multinum_sum(std::queue <longnum> queue) {
 
         new_digit = sum_queue.back();
         num_curr = NULL;
-        while (!sum_queue.empty()) {
+        while (!sum_queue.empty() || leftover != 0) {
               result_curr = alloc(longnum_digit);
               result_curr->digit = leftover;
-              while (num_curr != new_digit) {
-                    num_curr = sum_queue.front();
-                    sum_queue.pop();
-                    result_curr->digit += num_curr->digit;
-                    if (num_curr->left != NULL)
-                       sum_queue.push(num_curr->left);
+              if (!sum_queue.empty()) {
+                  while (num_curr != new_digit) {
+                        num_curr = sum_queue.front();
+                        sum_queue.pop();
+                        result_curr->digit += num_curr->digit;
+                        if (num_curr->left != NULL)
+                           sum_queue.push(num_curr->left);
+                  }
+                  if (!sum_queue.empty()) new_digit = sum_queue.back();
               }
-              if (!sum_queue.empty()) new_digit = sum_queue.back();
               leftover = result_curr->digit / 10;
               result_curr->digit %= 10;
               result_curr->left=NULL;
@@ -340,22 +342,6 @@ longnum longnum_multinum_sum(std::queue <longnum> queue) {
                     sum_queue.push(tmp_queue.front());
                     tmp_queue.pop();
               }*/
-        }
-
-        while (leftover != 0) {
-              result_curr = alloc(longnum_digit);
-              result_curr->digit = leftover % 10;
-              leftover /= 10;
-              result_curr->left = NULL;
-              if (result_head == NULL) {
-                 result_head = result_curr;
-                 result_curr->right = NULL;
-              }
-              else {
-                   result_curr->right = result_head;
-                   result_head->left = result_curr;
-              }
-              result_head = result_curr;
         }
 
         return longnum_freezero(result_head);
