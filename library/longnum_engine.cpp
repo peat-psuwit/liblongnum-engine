@@ -355,27 +355,15 @@ longnum longnum_uint_multiply(longnum num1_head, unsigned int num) {
     while (num1_curr->right != NULL)
         num1_curr = num1_curr->right;
 
-    while (num1_curr != NULL) {
+    while (num1_curr != NULL || leftover != 0) {
         result_curr = alloc(longnum_digit);
-        tmp = (num1_curr->digit * num) + leftover;
+        tmp = leftover;
+        if (num1_curr != NULL) {
+            tmp += num1_curr->digit * num;
+            num1_curr = num1_curr->left;
+        }
         result_curr->digit = tmp % 10;
         leftover = tmp / 10;
-        result_curr->left = NULL;
-        if (result_head == NULL) {
-            result_curr->right = NULL;
-        }
-        else {
-            result_curr->right = result_head;
-            result_head->left = result_curr;
-        }
-        result_head = result_curr;
-        num1_curr = num1_curr->left;
-    }
-
-    while (leftover != 0) {
-        result_curr = alloc(longnum_digit);
-        result_curr->digit = leftover % 10;
-        leftover /= 10;
         result_curr->left = NULL;
         if (result_head == NULL) {
             result_curr->right = NULL;
