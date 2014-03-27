@@ -4,11 +4,10 @@ OBJS = longnum_engine.o
 
 all : $(LIBS)
 
-liblongnum_engine.so : longnum_engine.o
-	c++ -shared -o liblongnum_engine.so longnum_engine.o
+liblongnum_engine.so : $(OBJS)
+	c++ -shared -o liblongnum_engine.so $(OBJS)
 
-longnum_engine.o : longnum_engine.h longnum_engine.cpp
-	c++ -c -Wall -Werror -fpic longnum_engine.cpp
+$(OBJS) : longnum_engine.h
 
 clean :
 	-rm $(LIBS) $(OBJS)
