@@ -7,7 +7,8 @@ all : $(LIBS)
 liblongnum_engine.so : $(OBJS)
 	c++ -shared -o liblongnum_engine.so $(OBJS)
 
-$(OBJS) : longnum_engine.h
+%.o : %.cpp longnum_engine.h
+	c++ -c -fPIC -Wall $<
 
 clean :
 	-rm $(LIBS) $(OBJS)
