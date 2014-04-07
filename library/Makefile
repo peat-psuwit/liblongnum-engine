@@ -11,6 +11,7 @@ liblongnum_engine.so : $(OBJS)
 	$(CXX) $(LDFLAGS) -shared -o $@ $(OBJS)
 
 $(OBJS) : CPPFLAGS := $(CPPFLAGS) -fPIC -Wall
+$(OBJS) : longnum_engine.h
 
 clean :
 	-rm $(LIBS) $(OBJS)
