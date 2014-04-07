@@ -5,10 +5,9 @@ OBJS = longnum_engine.o
 all : $(LIBS)
 
 liblongnum_engine.so : $(OBJS)
-	c++ -shared -o liblongnum_engine.so $(OBJS)
+	$(CXX) $(LDFLAGS) -shared -o $@ $(OBJS)
 
-%.o : %.cpp longnum_engine.h
-	c++ -c -fPIC -Wall $<
+$(OBJS) : CPPFLAGS = -fPIC -Wall
 
 clean :
 	-rm $(LIBS) $(OBJS)
