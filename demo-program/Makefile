@@ -2,7 +2,9 @@ PROG_C = fac-longnum fib longnum_engine-diff longnum_engine-divide  longnum_engi
 PROG_C++ = longnum_engine-multinum-sum
 
 .PHONY : all clean
-all : $(PROG_C) $(PROG_C++)
+release debug : $(PROG_C) $(PROG_C++)
+
+debug : LDFLAGS := $(LDFLAGS) -g
 
 $(PROG_C) $(PROG_C++) : CPPFLAGS = -L../library/ -I../library/
 $(PROG_C) $(PROG_C++) : LDLIBS = -llongnum_engine
