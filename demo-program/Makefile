@@ -4,11 +4,10 @@ PROG_C++ = longnum_engine-multinum-sum
 .PHONY : all clean
 all : $(PROG_C) $(PROG_C++)
 
-$(PROG_C) : ../library/liblongnum_engine.so
-	cc -L../library/ -I../library/ -o $@ $@.c -llongnum_engine
+$(PROG_C) $(PROG_C++) : CPPFLAGS = -L../library/ -I../library/
+$(PROG_C) $(PROG_C++) : LDLIBS = -llongnum_engine
 
-$(PROG_C++) : ../library/liblongnum_engine.so
-	c++ -L../library/ -I../library/ -o $@ $@.cpp -llongnum_engine
+$(PROG_C) $(PROG_C++) : ../library/liblongnum_engine.so
 
 clean :
 	-rm $(PROG_C) $(PROG_C++)
