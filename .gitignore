@@ -17,3 +17,6 @@
 !/demo-program/*.*
 #Don't ignore Makefile, ever!
 !/demo-program/Makefile
+
+#Ignore temp file from gedit and friends.
+*~
