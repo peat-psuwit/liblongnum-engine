@@ -2,13 +2,16 @@ LIBS = liblongnum_engine.so
 OBJS = longnum_engine.o
 .PHONY : all clean
 
-all : $(LIBS)
+release debug : $(LIBS)
+
+debug : CPPFLAGS := $(CPPFLAGS) -g
+debug : LDFLAGS := $(LDFLAGS) -g
 
 liblongnum_engine.so : $(OBJS)
-	c++ -shared -o liblongnum_engine.so $(OBJS)
+	$(CXX) $(LDFLAGS) -shared -o $@ $(OBJS)
 
-%.o : %.cpp longnum_engine.h
-	c++ -c -fPIC -Wall $<
+$(OBJS) : CPPFLAGS := $(CPPFLAGS) -fPIC -Wall
+$(OBJS) : longnum_engine.h
 
 clean :
 	-rm $(LIBS) $(OBJS)
