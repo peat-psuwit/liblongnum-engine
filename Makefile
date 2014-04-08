@@ -1,5 +1,5 @@
 DIRS = library demo-program
-.PHONY : $(DIRS) default all clean
+.PHONY : $(DIRS) all clean
 
 release :
 
