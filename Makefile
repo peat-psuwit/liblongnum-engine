@@ -1,6 +1,8 @@
 DIRS = library demo-program
 .PHONY : $(DIRS) default all clean
 
+release :
+
 release release-all : BUILD_MODE = release
 debug debug-all : BUILD_MODE = debug
 
