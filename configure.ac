@@ -13,7 +13,7 @@ AM_INIT_AUTOMAKE
 LT_INIT
 
 AC_ARG_ENABLE([debug],
-[  --enable-debug    Turn on debugging],
+AS_HELP_STRING([--enable-debug],[Turn on debugging]),
 [case "${enableval}" in
   yes) debug=true ;;
   no)  debug=false ;;
