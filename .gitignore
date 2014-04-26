@@ -15,8 +15,6 @@
 #ignore demo-program output
 /demo-program/*
 !/demo-program/*.*
-#Don't ignore Makefile, ever!
-!/demo-program/Makefile
 
 #Ignore temp file from gedit and friends.
 *~
@@ -33,3 +31,14 @@ install-sh
 ltmain.sh
 m4/
 missing
+
+#Ignore ./configure auto generated file
+.deps/
+Makefile
+config.log
+config.status
+libtool
+
+#Ignore compilation result
+*/.dirstamp
+*/.libs/
