@@ -38,7 +38,9 @@ Makefile
 config.log
 config.status
 libtool
+/compile
 
 #Ignore compilation result
 */.dirstamp
 */.libs/
+
