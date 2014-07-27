@@ -345,6 +345,7 @@ longnum longnum_multinum_sum(longnum *numbers, unsigned numbers_amount) {
                         /*if (num_curr->left != NULL)
                             sum_queue.push(num_curr->left);*/
                         finishFlag = 0;
+                        num_curr[i] = num_curr[i]->left;
                     }
               }
               //if (!sum_queue.empty()) new_digit = sum_queue.back();
