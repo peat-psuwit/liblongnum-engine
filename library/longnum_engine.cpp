@@ -164,7 +164,7 @@ void longnum_free (longnum num) {
            free(tmp);
      }
 }
-#ifdef __cplusplus
+
 longnum longnum_multiply (longnum num1_head, longnum num2_head) {
         char leftover=0;
         longnum_digit *num1_curr=NULL;
@@ -172,7 +172,9 @@ longnum longnum_multiply (longnum num1_head, longnum num2_head) {
         longnum_digit *sum_head=NULL;
         longnum_digit *tmp_head=NULL, *tmp_curr=NULL, *tmp_tail=NULL;
         unsigned long long int num2_count=0, i;
-        std::queue <longnum >sum_queue;
+        //std::queue <longnum >sum_queue;
+        longnum *sum_numbers = NULL;
+        unsigned sum_numbers_amount = 0, sum_numbers_limit=0;
 
          if (num1_head == NULL && num2_head == NULL)
            return NULL;
@@ -189,6 +191,9 @@ longnum longnum_multiply (longnum num1_head, longnum num2_head) {
         num2_curr = num2_head;
         while (num2_curr->right != NULL)
               num2_curr = num2_curr->right;
+
+        sum_numbers_limit = 4;
+        sum_numbers = (longnum *) malloc(sum_numbers_limit * sizeof(longnum));
 
         while (num2_curr != NULL) {
               if (num2_curr->digit == 0) {
@@ -235,7 +240,14 @@ longnum longnum_multiply (longnum num1_head, longnum num2_head) {
               tmp_curr = NULL;
               tmp_tail = NULL; */
 
-              sum_queue.push(tmp_head);
+              //sum_queue.push(tmp_head);
+              if (sum_numbers_amount == sum_numbers_limit) {
+                sum_numbers_limit *= 2;
+                sum_numbers = (longnum *) realloc(sum_numbers, sum_numbers_limit * sizeof(longnum));
+              }
+              sum_numbers[sum_numbers_amount] = tmp_head;
+              sum_numbers_amount++;
+
               tmp_head = NULL;
               tmp_curr = NULL;
               tmp_tail = NULL;
@@ -247,16 +259,20 @@ longnum longnum_multiply (longnum num1_head, longnum num2_head) {
             num2_count++;
         }
 
-        sum_head = longnum_multinum_sum(sum_queue);
+        sum_head = longnum_multinum_sum(/*sum_queue*/sum_numbers, sum_numbers_amount);
 
-        while (!sum_queue.empty()) {
+        /*while (!sum_queue.empty()) {
             longnum_free(sum_queue.front());
             sum_queue.pop();
+        }*/
+        for (i=0; i<sum_numbers_amount; i++) {
+            longnum_free(sum_numbers[i]);
         }
+        free(sum_numbers);
 
         return sum_head;
 }
-#endif // __cplusplus
+
 void longnum_print(longnum num) {
     if (num == NULL) return;
     longnum_digit * num_curr = num;
