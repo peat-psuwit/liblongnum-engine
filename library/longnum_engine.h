@@ -16,12 +16,11 @@ typedef struct s_longnum_div_t {
 } longnum_div_t;
 
 #ifdef __cplusplus
-//This fuction is usable only if using c++
 #include <queue>
-longnum longnum_multinum_sum(std::queue<longnum> queue);
 extern "C" {
 #endif // __cplusplus
 longnum longnum_sum (longnum num1_head, longnum num2_head);
+longnum longnum_multinum_sum(longnum *numbers, unsigned numbers_amount);
 longnum longnum_multiply (longnum num1_head, longnum num2_head);
 longnum longnum_diff (longnum num1_head, longnum num2_head);
 longnum longnum_uint_multiply(longnum num1_head, unsigned int num);
