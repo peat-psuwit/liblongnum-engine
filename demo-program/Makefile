@@ -1,5 +1,5 @@
-PROG_C = fac-longnum fib longnum_engine-diff longnum_engine-divide  longnum_engine-multiply longnum_engine-sum
-PROG_C++ = longnum_engine-multinum-sum
+PROG_C = fac-longnum fib longnum_engine-diff longnum_engine-divide  longnum_engine-multiply longnum_engine-sum longnum_engine-multinum-sum
+PROG_C++ =
 
 .PHONY : all clean
 release debug : $(PROG_C) $(PROG_C++)
