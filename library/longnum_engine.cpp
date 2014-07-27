@@ -3,12 +3,6 @@
 #include "longnum_engine.h"
 #define alloc(type) (type*)malloc(sizeof(type))
 
-#ifdef __cplusplus
-#include <queue>
-//using namespace std;
-#endif // __cplusplus
-
-
 longnum longnum_duplicate(longnum num) {
     longnum_digit * num_curr=NULL, *new_curr=NULL, *new_tail=NULL;
     longnum new_head=NULL;
