@@ -5,7 +5,7 @@ AM_CPPFLAGS =
 LDADD = 
 
 lib_LTLIBRARIES = library/liblongnum_engine.la
-library_liblongnum_engine_la_SOURCES = library/longnum_engine.cpp library/longnum_engine.h
+library_liblongnum_engine_la_SOURCES = library/longnum_engine.c library/longnum_engine.h
 library_liblongnum_engine_la_LIBADD = 
 
 include_HEADERS = library/longnum_engine.h
@@ -21,7 +21,7 @@ else !INSTALL_DEMO
 noinst_PROGRAMS = demo-program/fac-longnum demo-program/fib demo-program/longnum_engine-diff demo-program/longnum_engine-divide demo-program/longnum_engine-multiply demo-program/longnum_engine-sum demo-program/longnum_engine-multinum-sum
 endif !INSTALL_DEMO
 
-demo_program_longnum_engine_multinum_sum_SOURCES = demo-program/longnum_engine-multinum-sum.cpp
+demo_program_longnum_engine_multinum_sum_SOURCES = demo-program/longnum_engine-multinum-sum.c
 LDADD += library/liblongnum_engine.la
 AM_CFLAGS += -Ilibrary/
 AM_CPPFLAGS += -Ilibrary/
