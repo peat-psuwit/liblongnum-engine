@@ -10,4 +10,5 @@ rm -rf  Makefile.in \
 	install-sh \
 	ltmain.sh \
 	m4/ \
-	missing
+	missing \
+	compile
