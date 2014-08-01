@@ -159,6 +159,18 @@ void longnum_free (longnum num) {
      }
 }
 
+unsigned int longnum_length(longnum num_head) {
+    longnum_digit *num_curr = num_head;
+    unsigned int length = 0;
+
+    while (num_curr) {
+        length++;
+        num_curr = num_curr->right;
+    }
+
+    return length;
+}
+
 longnum longnum_multiply (longnum num1_head, longnum num2_head) {
         char leftover=0;
         longnum_digit *num1_curr=NULL;
@@ -186,7 +198,7 @@ longnum longnum_multiply (longnum num1_head, longnum num2_head) {
         while (num2_curr->right != NULL)
               num2_curr = num2_curr->right;
 
-        sum_numbers_limit = 4;
+        sum_numbers_limit = /*4*/ longnum_length(num1_head) * longnum_length(num2_head);
         sum_numbers = (longnum *) malloc(sum_numbers_limit * sizeof(longnum));
 
         while (num2_curr != NULL) {
@@ -235,8 +247,8 @@ longnum longnum_multiply (longnum num1_head, longnum num2_head) {
               tmp_tail = NULL; */
 
               //sum_queue.push(tmp_head);
-              if (sum_numbers_amount == sum_numbers_limit) {
-                sum_numbers_limit *= 2;
+              if (sum_numbers_amount == sum_numbers_limit) { //I don't think this is needed, but just in case.
+                sum_numbers_limit /* *= 2 */ += 4;
                 sum_numbers = (longnum *) realloc(sum_numbers, sum_numbers_limit * sizeof(longnum));
               }
               sum_numbers[sum_numbers_amount] = tmp_head;
