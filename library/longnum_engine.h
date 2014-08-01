@@ -33,6 +33,7 @@ void longnum_free (longnum num);
 longnum longnum_duplicate(longnum num);
 void longnum_print(longnum num);
 longnum longnum_read();
+unsigned int longnum_length(longnum num_head);
 
 longnum int_to_longnum(unsigned int integer);
 #ifdef __cplusplus

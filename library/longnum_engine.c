@@ -159,6 +159,18 @@ void longnum_free (longnum num) {
      }
 }
 
+unsigned int longnum_length(longnum num_head) {
+    longnum_digit *num_curr = num_head;
+    unsigned int length = 0;
+
+    while (num_curr) {
+        length++;
+        num_curr = num_curr->right;
+    }
+
+    return length;
+}
+
 longnum longnum_multiply (longnum num1_head, longnum num2_head) {
         char leftover=0;
         longnum_digit *num1_curr=NULL;
